@@ -59,11 +59,11 @@ class BitDefender_Challanger(object):
                   Y_ = tf.nn.sigmoid(output_layer)
                   is_correct = tf.equal(tf.round(Y_), self.targets)
                   self.accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
-                  tf.summary.scalar('Accuracy', self.accuracy)
 
                   if not self.is_training:
                         return
 
+                  tf.summary.scalar('Accuracy', self.accuracy)
                   adam_opt = tf.train.AdamOptimizer(self._learning_rate)
                   self.optimizer = adam_opt.minimize(cross_entropy)
 
@@ -88,8 +88,7 @@ class BitDefender_Challanger(object):
                   accuracy += vals["accuracy"]
                   if (self.batch_nr // 10)  != 0 and batch % (self.batch_nr // 10) == 0:
                         print("-----------> Batch number : %d Current Accuracy : %f" % (batch / (self.batch_nr // 10),  vals["accuracy"]))
-                  if (self.batch_nr // 100) != 0 and batch % (self.batch_nr // 100):
-                        writer.add_summary(session.run(merged_summaries))
+                  writer.add_summary(session.run(merged_summaries))
             print("############### %s Total Accuracy = %lf \n" % (self.model_op_name, (accuracy / self.batch_nr)))
 
       def debug_print(self, session):
@@ -115,7 +114,7 @@ def main():
       validation_inputs, validation_targets, validation_batch_nr = btc_dp.validation_data
       test_inputs, test_target, test_batch_nr = btc_dp.test_data
 
-      btc_train_model      = BitDefender_Challanger(train_inputs, train_target, train_batch_nr // 7, True, 0.003, model_op_name="Training")
+      btc_train_model      = BitDefender_Challanger(train_inputs, train_target, train_batch_nr, True, 0.003, model_op_name="Training")
       btc_validation_model = BitDefender_Challanger(validation_inputs, validation_targets, validation_batch_nr, model_op_name="Validation")
       btc_test_model       = BitDefender_Challanger(test_inputs, test_target, test_batch_nr, model_op_name="Testing")
 
