@@ -37,9 +37,9 @@ class Reader(object):
         self.targets = df['verdict']
         self.targets.replace(to_replace={'trojan': 1, 'clean': 0}, inplace=True)
 
-        # self.test_targets = df_test['verdict']
-        # self.test_targets.replace(to_replace={'trojan': 1, 'clean': 0}, inplace=True)
-        self.test_targets = np.ones(self.test_inputs.shape[0]).astype(int)
+        self.test_targets = df_test['verdict']
+        self.test_targets.replace(to_replace={'trojan': 1, 'clean': 0}, inplace=True)
+        #self.test_targets = np.ones(self.test_inputs.shape[0]).astype(int)
        
 
         self.inputs = np.array(self.inputs)
